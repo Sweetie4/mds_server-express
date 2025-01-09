@@ -1,8 +1,38 @@
 import { Router } from 'express';
+import { User } from '../models/User.js';
+import { sequelize } from '../core/connexion_database.js';
 export let router = Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/', function(req, res, next) {
+  res.send('save a user');
 });
 
+router.get('/role/:role', function(req, res, next) {
+  res.send('get users by role');
+});
+
+router.get('/:id', async function(req, res, next) {
+  res.send('get user by id');
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+  // const jane = await User.create({
+  //   username: 'janedoe',
+  //   birthday: new Date(1980, 6, 20),
+  // });
+  
+  // const users = await User.findAll();
+  // res.send(users);
+});
+
+router.put('/:id', function(req, res, next) {
+  res.send('update user by id');
+});
+
+router.delete('/:id', function(req, res, next) {
+  res.send('delete user by id');
+});

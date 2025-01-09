@@ -7,6 +7,7 @@ import {router as indexRouter} from './routes/index.js';
 import{router as usersRouter} from './routes/users.js';
 import {dirname} from 'node:path'
 import url from 'node:url';
+import session from 'express-session';
 export let app = express();
 
 const __filename = url.fileURLToPath(import.meta.url);
@@ -20,8 +21,14 @@ app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressStatic(join(__dirname, 'public')));
+app.use(expressStatic(join(__dirname, '/public')));
 
+
+app.use(session({
+  secret: 'key',
+  resave: false,
+  saveUninitialized: false
+}));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
