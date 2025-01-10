@@ -8,19 +8,24 @@ router.post('/', function(req, res, next) {
   res.send('save a user');
 });
 
-router.get('/role/:role', function(req, res, next) {
-  res.send('get users by role');
+router.get('/role/:role', async function(req, res, next) {
+  try{
+    let id = req.url.split('/')[2];
+    const users = await User.findAll({ where: { id_profile:id } });
+    res.send(JSON.stringify(users, null, 2));
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
 });
 
 router.get('/:id', async function(req, res, next) {
-  res.send('get user by id');
-  // const jane = await User.create({
-  //   username: 'janedoe',
-  //   birthday: new Date(1980, 6, 20),
-  // });
-  
-  // const users = await User.findAll();
-  // res.send(users);
+  try{
+    let id = req.url.split('/')[1]
+    const users = await User.findOne({ where: { id } });
+    res.send(JSON.stringify(users, null, 2));
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
 });
 
 router.put('/:id', function(req, res, next) {
