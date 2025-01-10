@@ -22,7 +22,7 @@ export  default function (httpServer) {
                 content: content.message,
                 time: new Date().toJSON()
             }
-            socket.emit('newMessage',msg)
+            io.to("TheRoom").emit('newMessage',msg)
         })
     });
     return function(req, res, next) {

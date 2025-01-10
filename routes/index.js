@@ -23,8 +23,8 @@ router.get('/connexion', function(req, res, next) {
   res.render('layout', { page:'connexion',title: 'Connexion', isAdmin:false, base_url, user:req.session.user  });
 });
 
-router.get('/login-tchat', function(req, res, next) {
-  res.render('layout', { page:'login_tchat',title: 'Connexion au Tchat', isAdmin:false, base_url  });
+router.get('/dab', function(req, res, next) {
+  res.render('layout', { page:'dab',title: 'Connexion au Tchat', isAdmin:false, base_url  });
 });
 
 router.post('/login', function(req, res, next) {
