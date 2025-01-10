@@ -60,3 +60,16 @@ footer {
   padding:10px 25px;
   background-color: #00B7FF;
 }
+
+#tchat{
+  border: #474747 solid 3px;
+}
+
+#tchat>div {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+}
+
+#tchat>div:nth-child(even) {
+  background-color: #aeaeae;
+}

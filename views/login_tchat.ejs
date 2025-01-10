@@ -1,23 +1,8 @@
-<form action="javascript:onUsernameSelection(pseudo)">
+<form action="/tchat" method="post">
     <h3>Connexion</h3>
     <div>
         <label>Pseudo</label>
-        <input type="text" id="pseudo">
+        <input type="text" id="pseudo" required name="pseudo">
     </div>
-    <input type="submit" value="Accéder au tchat">
+    <input type="submit" value="Accéder au tchat" class="button">
 </form>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io("http://localhost:8080", { autoConnect: false });
-    let logged_user= null
-    socket.onAny((event, ...args) => {
-        console.log(event, args)
-    });
-
-    function onUsernameSelection(username) {
-        logged_user = username.value
-        socket.auth = { username:username.value };
-        socket.connect();
-    }
-</script>

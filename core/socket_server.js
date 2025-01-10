@@ -1,27 +1,40 @@
 import { Server } from "socket.io";
-import { router } from "../routes/index.js";
+import {determineCoupure} from '@shirleen1/dab';
 
 
 export  default function (httpServer) {
     const io = new Server(httpServer, { });
+    let messages = []
     
     io.on("connection", (socket) => {
-        const username = socket.handshake.auth.username;
-        // if (!username) {
-        //     return console.error("invalid username");
-        // }
-        
-        socket.username = username;
-        router.get('/dab', function(req, res, next) {
-            res.render('layout', { page:'dab',title: 'Tchat', isAdmin:false, base_url  });
-        });
+        socket.emit('timeline', messages);
         socket.join("TheRoom");
         socket.on('message',(content)=>{
-            let msg = {
-                user: socket.username,
-                content: content.message,
-                time: new Date().toJSON()
+            let msg={};
+            if (content.message.includes('# dab')){
+                let command = content.message.split(' ');
+                let data = command[2];
+                let response = "";
+                if (data.includes('€') ){
+                    response = determineCoupure({montant:data.split('€')[0],devise:'€'});
+                } else if(data.includes('$')){
+                    response = determineCoupure({montant:data.split('$')[0], devise:'$'});
+                } else {
+                    response = 'devise non prise en charge';
+                }
+                msg = {
+                    user: "Bot",
+                    content: content.user+", "+response,
+                    time: new Date().toJSON()
+                }
+            } else {
+                msg = {
+                    user: content.user,
+                    content: content.message,
+                    time: new Date().toJSON()
+                }
             }
+            messages.push(msg);
             io.to("TheRoom").emit('newMessage',msg)
         })
     });

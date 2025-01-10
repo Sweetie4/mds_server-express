@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import {router as indexRouter} from './routes/index.js';
 import{router as usersRouter} from './routes/users.js';
+import{router as tchatRouter} from './routes/tchat.js';
 import {dirname} from 'node:path'
 import tchatSocketio  from './core/socket_server.js';
 import { createServer } from "http";
@@ -37,6 +38,8 @@ app.use(session({
 }));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/tchat', tchatRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

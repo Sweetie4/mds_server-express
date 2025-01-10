@@ -1,44 +1,51 @@
-
-
-<!-- Afficher un seul form à la fois -->
+<div id="tchat">
+</div>
 <form action="javascript:onMessage(message)">
     <div>
         <input type="text" id="message">
     </div>
     <input type="submit" value="Envoyer">
 </form>
-<form action="javascript:onUsernameSelection(pseudo)">
-    <h3>Connexion</h3>
-    <div>
-        <label>Pseudo</label>
-        <input type="text" id="pseudo">
-    </div>
-    <input type="submit" value="Accéder au tchat">
-</form>
+
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-        const socket = io("http://localhost:8080", { autoConnect: false });
-    let logged_user= null
+    const socket = io();
+    const logged_user = "<%= logged_user %>";
+    let div = document.getElementById("tchat") ;
+
     socket.onAny((event, ...args) => {
         //console.log(event, args)
     });
-
-    function onUsernameSelection(username) {
-        logged_user = username.value
-        socket.auth = { username:username.value };
-        socket.connect();
-    }
-    
-    socket.on("newMessage", (newMessage) => {
-        console.log(newMessage);
-        if (newMessage.user == logged_user){
-            // Le mettre en rouge
+    socket.on("timeline", (messages) => {
+        if (messages){
+            messages.forEach(message => {
+                let bubble = document.createElement("div");
+                if (logged_user == message.user){
+                    bubble.innerHTML =`<div style="color:red">${message.user}:</div><div>${message.content}</div><div>${message.time}</div>`;
+                }else {
+                    bubble.innerHTML =`<div>${message.user}:</div><div>${message.content}</div><div>${message.time}</div>`;
+                }
+                bubble.classList.add("bubble");
+                div.appendChild(bubble);
+            });
         }
-        // Afficher le message
+    });
+
+    socket.on("newMessage", (newMessage) => {
+        let input = document.getElementById("message") ;
+        input.value="";
+        let bubble = document.createElement("div");
+        if (newMessage.user == logged_user){
+            bubble.innerHTML =`<div style="color:red">${newMessage.user}:</div><div>${newMessage.content}</div><div>${newMessage.time}</div>`;        
+        }else {
+            bubble.innerHTML =`<div>${newMessage.user}:</div><div>${newMessage.content}</div><div>${newMessage.time}</div>`;
+        }
+        bubble.classList.add("bubble");
+        div.appendChild(bubble);
     });
 
     function onMessage(message) {
-        socket.emit("message", {message: message.value});
+        socket.emit("message", {message: message.value, user:logged_user});
     }
 </script>

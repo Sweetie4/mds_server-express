@@ -4,7 +4,6 @@ export let router = Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(req.session);
   res.render('layout', { page:'home',title: 'Accueil', isAdmin:false, base_url, user:req.session.user  });
 });
 
@@ -23,9 +22,6 @@ router.get('/connexion', function(req, res, next) {
   res.render('layout', { page:'connexion',title: 'Connexion', isAdmin:false, base_url, user:req.session.user  });
 });
 
-router.get('/dab', function(req, res, next) {
-  res.render('layout', { page:'dab',title: 'Connexion au Tchat', isAdmin:false, base_url  });
-});
 
 router.post('/login', function(req, res, next) {
   req.session.save(() => {
