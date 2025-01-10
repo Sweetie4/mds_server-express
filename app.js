@@ -4,8 +4,10 @@ import { join } from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import {router as indexRouter} from './routes/index.js';
-import{router as usersRouter} from './routes/users.js';
+//import{router as usersRouter} from './routes/users.js';
 import {dirname} from 'node:path'
+import tchatSocketio  from './core/socket_server.js';
+import { createServer } from "http";
 import url from 'node:url';
 import session from 'express-session';
 export let app = express();
@@ -23,6 +25,10 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressStatic(join(__dirname, '/public')));
 
+const httpServer = createServer(app);
+httpServer.listen(8080);
+
+app.use("/socketio/",tchatSocketio(httpServer));
 
 app.use(session({
   secret: 'key',
@@ -30,19 +36,23 @@ app.use(session({
   saveUninitialized: false
 }));
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  //next(createError(404));
+  console.error('page 404='+req.url) 
+  res.render('404');
+
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  console.error('ERROR') 
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
   res.status(err.status || 500);
-  res.render('404');
+  res.render('error');
 });

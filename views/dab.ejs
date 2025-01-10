@@ -1,0 +1,29 @@
+
+
+<!-- Afficher un seul form à la fois -->
+<form action="javascript:onMessage(message)">
+    <div>
+        <input type="text" id="message">
+    </div>
+    <input type="submit" value="Envoyer">
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io("http://localhost:8080", { autoConnect: false });
+    let logged_user= null
+    socket.onAny((event, ...args) => {
+        console.log(event, args)
+    });
+    
+    socket.on("newMessage", (newMessage) => {
+        if (newMessage.user == logged_user){
+            // Le mettre en rouge
+        }
+        // Afficher le message
+    });
+
+    function onMessage(message) {
+        socket.emit("message", {message: message.value});
+    }
+</script>
