@@ -14,12 +14,6 @@ router.get('/role/:role', function(req, res, next) {
 
 router.get('/:id', async function(req, res, next) {
   res.send('get user by id');
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
   // const jane = await User.create({
   //   username: 'janedoe',
   //   birthday: new Date(1980, 6, 20),
