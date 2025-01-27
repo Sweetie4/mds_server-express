@@ -21,9 +21,9 @@ router.get('/role/:role', async function(req, res, next) {
       where: { 
         id_profile:id 
       },
-      include:{ 
-        model: Profile
-    }
+      include:[
+        {model: Profile}
+      ]
     })
     res.json(users);
   } catch (err){
@@ -34,7 +34,11 @@ router.get('/role/:role', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
   try{
     let id =  req.params.id
-    const users = await User.findOne({ where: { id } });
+    const users = await User.findOne({ where: { id },
+      include:[
+        {model: Profile},
+        'Commercial'
+      ] });
     res.json(users);
   } catch (err){
     console.error('Erreur : '+err)
@@ -73,6 +77,12 @@ router.delete('/:id', async function(req, res, next) {
 });
 
 /* User Relationships */
+
+User.belongsTo(User,{
+  foreignKey:'id_commercial',
+  as:'Commercial'
+})
+
 User.belongsTo(Profile,{
   foreignKey:'id_profile'
 });

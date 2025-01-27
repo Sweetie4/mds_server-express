@@ -3,6 +3,8 @@ const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class Criter extends Model {
   label;
+  type;
+  possible_values;
 }
 
 Criter.init(

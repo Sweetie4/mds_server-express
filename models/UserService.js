@@ -4,8 +4,9 @@ import { User } from './User.js';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class UserService extends Model {
-  id_category;
-  id_criter;
+  id_user;
+  id_service;
+  scheduled_on;
 }
 
 UserService.init(

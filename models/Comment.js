@@ -4,8 +4,9 @@ import { Product } from './Product.js';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class Comment extends Model {
-  label;
-  duration;
+  id_user;
+  id_product;
+  content;
 }
 
 Comment.init(

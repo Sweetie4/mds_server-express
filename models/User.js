@@ -28,7 +28,10 @@ User.init(
     },
     id_commercial: {
       type: DataTypes.INTEGER,
-      // references: {}, --to add : foreign keys
+      references: {
+        model: User,
+        key: 'id',
+      }, 
     },
     first_name: {
       type: DataTypes.STRING(50),
