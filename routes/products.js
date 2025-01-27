@@ -4,6 +4,9 @@ import { Sequelize } from 'sequelize';
 import { OrderProduct } from '../models/OrderProduct.js';
 import { Order } from '../models/Order.js';
 import { Category } from '../models/Category.js';
+import { CategoryCriter } from '../models/CategoryCriter.js';
+import { Criter } from '../models/Criter.js';
+import { CriterProduct } from '../models/CriterProduct.js';
 const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa_trashed');
 
 export let router = Router();
@@ -20,7 +23,7 @@ router.post('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
   try{
     let id = req.params.id;
-    const product = await Product.findOne({where: { id }, include: Category })
+    const product = await Product.findOne({where: { id }, include: [Category, {model: Criter,through: { attributes: [] }}] })
     res.json(product);
   } catch (err){
     console.error('Erreur : '+err)
@@ -29,7 +32,7 @@ router.get('/:id', async function(req, res, next) {
 
 router.get('/', async function(req, res, next) {
   try{
-    const products = await Product.findAll();
+    const products = await Product.findAll({include: [Category, {model: Criter,through: { attributes: [] }}]});
     res.json(products);
   } catch (err){
     console.error('Erreur : '+err)
@@ -84,3 +87,15 @@ Product.belongsTo(Category,{
 Category.hasMany(Product,{
   foreignKey:'id_category'
 })
+
+Category.belongsToMany(Criter, {
+  through: CategoryCriter,    
+  foreignKey: 'id_category', 
+  otherKey: 'id_criter',     
+});
+
+Product.belongsToMany(Criter, {
+  through: CriterProduct,
+  foreignKey: 'id_product',
+  otherKey: 'id_criter'
+})  
