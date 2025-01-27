@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Product } from '../models/Product.js';
 import { Sequelize } from 'sequelize';
+import { OrderProduct } from '../models/OrderProduct.js';
 const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa_trashed');
 
 export let router = Router();
@@ -68,3 +69,9 @@ router.delete('/:id', async function(req, res, next) {
 
 /* Product Relationships */
 
+OrderProduct.belongsTo(Product,{
+  foreignKey:'id_product'
+});
+Product.hasMany(OrderProduct, {
+  foreignKey: 'id_product'
+})

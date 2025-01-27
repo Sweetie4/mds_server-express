@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Order } from '../models/Order.js';
 import { User } from '../models/User.js';
+import { OrderProduct } from '../models/OrderProduct.js';
 
 export let router = Router();
 
@@ -16,7 +17,7 @@ router.post('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
   try{
     let id = req.params.id;
-    const order = await Order.findOne({where: { id },include: ['Client', 'Deliveror'] })
+    const order = await Order.findOne({where: { id },include: ['Client', 'Deliveror', 'OrderProduct'] })
     res.json(order);
   } catch (err){
     console.error('Erreur : '+err)
@@ -26,7 +27,7 @@ router.get('/:id', async function(req, res, next) {
 router.get('/', async function(req, res, next) {
   try{
     const orders = await Order.findAll({ 
-          include: ['Client', 'Deliveror']
+          include: ['Client', 'Deliveror', 'OrderProduct']
         });
     res.json(orders);
   } catch (err){
@@ -80,4 +81,13 @@ Order.belongsTo(User,{
 User.hasMany(Order, {
   as: 'Deliveror',
   foreignKey: 'id_deliveror'
+})
+
+OrderProduct.belongsTo(Order,{
+  as: 'OrderProduct',
+  foreignKey:'id_order'
+});
+Order.hasMany(OrderProduct, {
+  as: 'OrderProduct',
+  foreignKey: 'id_order'
 })
