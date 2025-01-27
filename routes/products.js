@@ -7,6 +7,8 @@ import { Category } from '../models/Category.js';
 import { CategoryCriter } from '../models/CategoryCriter.js';
 import { Criter } from '../models/Criter.js';
 import { CriterProduct } from '../models/CriterProduct.js';
+import { User } from '../models/User.js';
+import { Comment } from '../models/Comment.js';
 const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa_trashed');
 
 export let router = Router();
@@ -72,6 +74,71 @@ router.delete('/:id', async function(req, res, next) {
   }
 });
 
+
+router.post('/:id/comments', async function(req, res, next) {
+  try{
+    let id =  req.params.id;
+    await Comment.create({id_product: id, id_user:req.body.id_user, content:req.body.content});
+    res.json({"success":"Le commentaire a bien été enregistré"})
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
+});
+
+router.get('/:id/comments', async function(req, res, next) {
+  try{
+    let id = req.params.id;
+    const product = await Comment.findAll({where: { id_product:id }, include: [User] })
+    res.json(product);
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
+});
+
+router.get('/:product_id/comments/:comment_id', async function(req, res, next) {
+  try{
+    let productId = req.params.product_id;
+    let commentId = req.params.comment_id;
+    const product = await Comment.findOne({where: { id_product:productId, id:commentId }, include: [User] })
+    res.json(product);
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
+});
+
+router.put('/:product_id/comments/:comment_id', async function(req, res, next) {
+  try{
+    let productId = req.params.product_id;
+    let commentId = req.params.comment_id;
+    await Comment.update(
+    req.body,
+    {
+      where: {
+        id: commentId,
+        id_product: productId
+      },
+    },
+  );
+  res.json({"success":"Le commentaire a bien été mis à jour"})
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
+});
+
+router.delete('/:product_id/comments/:comment_id', async function(req, res, next) {
+  try{
+    let productId = req.params.product_id;
+    let commentId = req.params.comment_id;
+    await Comment.destroy({
+      where: { id: commentId, id_product:productId }
+    });
+    
+    res.json({"success":"Le commentaire a bien été supprimé"})
+  } catch (err){
+    console.error('Erreur : '+err)
+  }
+});
+
 /* Product Relationships */
 
 Product.belongsToMany(Order, {
@@ -99,3 +166,19 @@ Product.belongsToMany(Criter, {
   foreignKey: 'id_product',
   otherKey: 'id_criter'
 })  
+
+Comment.belongsTo(Product,{
+  foreignKey:'id_product'
+})
+
+Product.hasMany(Comment,{
+  foreignKey: 'id_product'
+})
+
+Comment.belongsTo(User,{
+  foreignKey:'id_user'
+})
+
+User.hasMany(Comment,{
+  foreignKey: 'id_user'
+})
