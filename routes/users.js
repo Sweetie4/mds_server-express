@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { User } from '../models/User.js';
-import { sequelize } from '../core/connexion_database.js';
 import { Profile } from '../models/Profile.js';
+import { Service } from '../models/Service.js';
+import { UserService } from '../models/UserService.js';
 export let router = Router();
 
 router.post('/', async function(req, res, next) {
@@ -77,4 +78,10 @@ User.belongsTo(Profile,{
 });
 Profile.hasMany(User, {
   foreignKey: 'id_profile'
+})
+
+User.belongsToMany(Service,{
+  through:UserService,
+  foreignKey:'id_user',
+  otherKey:'id_service'
 })
