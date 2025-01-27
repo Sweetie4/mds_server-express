@@ -3,6 +3,7 @@ import { Product } from '../models/Product.js';
 import { Sequelize } from 'sequelize';
 import { OrderProduct } from '../models/OrderProduct.js';
 import { Order } from '../models/Order.js';
+import { Category } from '../models/Category.js';
 const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa_trashed');
 
 export let router = Router();
@@ -19,7 +20,7 @@ router.post('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
   try{
     let id = req.params.id;
-    const product = await Product.findOne({where: { id } })
+    const product = await Product.findOne({where: { id }, include: Category })
     res.json(product);
   } catch (err){
     console.error('Erreur : '+err)
@@ -75,3 +76,11 @@ Product.belongsToMany(Order, {
   foreignKey: 'id_product', 
   otherKey: 'id_order',     
 });
+
+Product.belongsTo(Category,{
+  foreignKey:'id_category'
+})
+
+Category.hasMany(Product,{
+  foreignKey:'id_category'
+})

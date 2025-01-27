@@ -6,6 +6,7 @@ const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 export class OrderProduct extends Model {
   id_order;
   id_product;
+  quantity;
 }
 
 OrderProduct.init(

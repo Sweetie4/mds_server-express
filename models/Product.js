@@ -1,4 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Category } from './Category.js';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class Product extends Model {
@@ -18,7 +19,10 @@ Product.init(
     },
     id_category: {
       type: DataTypes.INTEGER,
-      // references: {}, --to add : foreign keys
+      references: {
+        model: Category,
+        key: 'id'
+      },
     },
     price: {
       type: DataTypes.FLOAT,
