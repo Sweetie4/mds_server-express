@@ -15,7 +15,7 @@ router.post('/', async function(req, res, next) {
 
 router.get('/role/:role', async function(req, res, next) {
   try{
-    let id = req.url.split('/')[2];
+    let id = req.params.role;
     const users = await User.findAll({ 
       where: { 
         id_profile:id 
@@ -32,7 +32,7 @@ router.get('/role/:role', async function(req, res, next) {
 
 router.get('/:id', async function(req, res, next) {
   try{
-    let id = req.url.split('/')[1]
+    let id =  req.params.id
     const users = await User.findOne({ where: { id } });
     res.json(users);
   } catch (err){
@@ -42,7 +42,7 @@ router.get('/:id', async function(req, res, next) {
 
 router.put('/:id', async function(req, res, next) {
   try{
-    let id = req.url.split('/')[1]
+    let id =  req.params.id
     await User.update(
     req.body,
     {
@@ -59,7 +59,7 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
   try{
-    let id = req.url.split('/')[1]
+    let id =  req.params.id
     await User.destroy({
       where: {
         id: id,

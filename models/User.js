@@ -3,8 +3,10 @@ import { Profile } from './Profile.js';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class User extends Model {
-  firstName;
-  lastName;
+  id_profile;
+  id_commercial;
+  first_name;
+  last_name;
   login;
 }
 
