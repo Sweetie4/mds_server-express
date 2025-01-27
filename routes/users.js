@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { User } from '../models/User.js';
 import { sequelize } from '../core/connexion_database.js';
+import { Profile } from '../models/Profile.js';
 export let router = Router();
 
-/* GET users listing. */
 router.post('/', async function(req, res, next) {
   try{
     await User.create(req.body);
@@ -16,7 +16,14 @@ router.post('/', async function(req, res, next) {
 router.get('/role/:role', async function(req, res, next) {
   try{
     let id = req.url.split('/')[2];
-    const users = await User.findAll({ where: { id_profile:id } });
+    const users = await User.findAll({ 
+      where: { 
+        id_profile:id 
+      },
+      include:{ 
+        model: Profile
+    }
+    })
     res.json(users);
   } catch (err){
     console.error('Erreur : '+err)
@@ -63,3 +70,11 @@ router.delete('/:id', async function(req, res, next) {
     console.error('Erreur : '+err)
   }
 });
+
+/* User Relationships */
+User.belongsTo(Profile,{
+  foreignKey:'id_profile'
+});
+Profile.hasMany(User, {
+  foreignKey: 'id_profile'
+})

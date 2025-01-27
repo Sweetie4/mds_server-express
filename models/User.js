@@ -1,9 +1,11 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Profile } from './Profile.js';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class User extends Model {
   firstName;
   lastName;
+  login;
 }
 
 User.init(
@@ -16,8 +18,11 @@ User.init(
     },
     id_profile: {
       type: DataTypes.INTEGER,
-      allowNull: false
-      // references: {}, --to add : foreign keys
+      allowNull: false,
+      references: {
+      model: Profile,
+      key: 'id',
+      },
     },
     id_commercial: {
       type: DataTypes.INTEGER,
