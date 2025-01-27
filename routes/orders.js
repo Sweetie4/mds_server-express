@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { Order } from '../models/Order.js';
 import { User } from '../models/User.js';
 import { OrderProduct } from '../models/OrderProduct.js';
+import { Product } from '../models/Product.js';
 
 export let router = Router();
 
@@ -17,7 +18,7 @@ router.post('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
   try{
     let id = req.params.id;
-    const order = await Order.findOne({where: { id },include: ['Client', 'Deliveror', 'OrderProduct'] })
+    const order = await Order.findOne({where: { id },include: ['Client', 'Deliveror', {model: Product,through: { attributes: ['quantity'] },},] })
     res.json(order);
   } catch (err){
     console.error('Erreur : '+err)
@@ -27,7 +28,7 @@ router.get('/:id', async function(req, res, next) {
 router.get('/', async function(req, res, next) {
   try{
     const orders = await Order.findAll({ 
-          include: ['Client', 'Deliveror', 'OrderProduct']
+          include: ['Client', 'Deliveror',  {model: Product,through: { attributes: ['quantity'] },}]
         });
     res.json(orders);
   } catch (err){
@@ -83,11 +84,8 @@ User.hasMany(Order, {
   foreignKey: 'id_deliveror'
 })
 
-OrderProduct.belongsTo(Order,{
-  as: 'OrderProduct',
-  foreignKey:'id_order'
+Order.belongsToMany(Product, {
+  through: OrderProduct,    
+  foreignKey: 'id_order',   
+  otherKey: 'id_product',   
 });
-Order.hasMany(OrderProduct, {
-  as: 'OrderProduct',
-  foreignKey: 'id_order'
-})
