@@ -7,6 +7,7 @@ import {router as indexRouter} from './routes/index.js';
 import{router as usersRouter} from './routes/users.js';
 import{router as tchatRouter} from './routes/tchat.js';
 import{router as productRouter} from './routes/products.js';
+import{router as orderRouter} from './routes/orders.js';
 import {dirname} from 'node:path'
 import tchatSocketio  from './core/socket_server.js';
 import { createServer } from "http";
@@ -41,6 +42,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tchat', tchatRouter);
 app.use('/products', productRouter);
+app.use('/orders', orderRouter);
 
 
 // catch 404 and forward to error handler
