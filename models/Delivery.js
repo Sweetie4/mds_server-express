@@ -1,16 +1,14 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { User } from './User.js';
-import { Delivery } from './Delivery.js';
+import {User} from './User.js'
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
-export class Order extends Model {
-  id_delivery;
-  id_client;
+export class Delivery extends Model {
   id_deliveror;
-  delivery_address;
+  id_responsable;
+  departure;
 }
 
-Order.init(
+Delivery.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,38 +16,32 @@ Order.init(
       primaryKey: true,
       autoIncrement: true 
     },
-    id_delivery: {
+    id_deliveror: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: Delivery,
-        key: 'id'
-      },
-    },
-    id_client: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: { 
         model: User,
         key: 'id'
-      },
+      }
     },
-    id_deliveror: {
+    id_responsable : {
       type: DataTypes.INTEGER,
-      references: { 
+      allowNull:false,
+      references: {
         model: User,
         key: 'id'
-      },
+      }
     },
-    delivery_address: {
-      type: DataTypes.STRING(1000),
-      allowNull: false,
+    departure: {
+      type: DataTypes.DATE,
+      allowNull:true
     }
   },
   {
     timestamps: false,
-    tableName:'orders',
+    tableName:'delivery',
+    schema: 'delivery',
     sequelize, 
-    modelName: 'Order',
+    modelName: 'Delivery',
   },
 );

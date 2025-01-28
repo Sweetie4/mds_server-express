@@ -3,6 +3,7 @@ import { Order } from '../models/Order.js';
 import { User } from '../models/User.js';
 import { OrderProduct } from '../models/OrderProduct.js';
 import { Product } from '../models/Product.js';
+import { Delivery } from '../models/Delivery.js';
 
 export let router = Router();
 
@@ -89,3 +90,8 @@ Order.belongsToMany(Product, {
   foreignKey: 'id_order',   
   otherKey: 'id_product',   
 });
+
+
+Order.belongsTo(Delivery, {
+  foreignKey:'id_delivery'
+})
