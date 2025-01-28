@@ -9,6 +9,8 @@ import { Criter } from '../models/Criter.js';
 import { CriterProduct } from '../models/CriterProduct.js';
 import { User } from '../models/User.js';
 import { Comment } from '../models/Comment.js';
+import { Stock} from '../models/Stock.js'
+import { ProductStock} from '../models/ProductStock.js'
 const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa_trashed');
 
 export let router = Router();
@@ -181,4 +183,10 @@ Comment.belongsTo(User,{
 
 User.hasMany(Comment,{
   foreignKey: 'id_user'
+})
+
+Product.belongsToMany(Stock,{
+  through:ProductStock,
+  foreignKey:'id_product',
+  otherKey:'id_stock'
 })
