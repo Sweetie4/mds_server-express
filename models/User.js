@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Profile } from './Profile.js';
+import bcrypt from 'bcrypt-nodejs';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class User extends Model {
@@ -45,8 +46,8 @@ User.init(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING(50),
+    password_hashed: {
+      type: DataTypes.STRING(250),
       allowNull: false,
     },
   },
@@ -55,5 +56,13 @@ User.init(
     tableName:'users',
     sequelize, 
     modelName: 'User',
+    hooks: {
+      beforeCreate: async (user) => {
+       if (user.password_hashed) {
+        const salt = await bcrypt.genSaltSync(10, 'a');
+        user.password_hashed = bcrypt.hashSync(user.password_hashed, salt);
+       }
+      },
+  }
   },
 );

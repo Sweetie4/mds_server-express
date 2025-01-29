@@ -17,6 +17,8 @@ import url from 'node:url';
 import session from 'express-session';
 export let app = express();
 
+import jwt from 'jsonwebtoken';
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename)
 
@@ -67,3 +69,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+/**
+ * Generate JWT token
+ * @param {string} username - user login
+ * @returns {string}
+ */
+export function generateAccessToken(username) {
+  return jwt.sign({username}, process.env.TOKEN_SECRET, { expiresIn: '1800' });
+}

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { base_url } from '../bin/www';
+import { generateAccessToken } from '../app.js';
 export let router = Router();
 
 /* GET home page. */
@@ -34,6 +35,7 @@ router.post('/login', function(req, res, next) {
   });
   res.render('layout', { page:'home',title: 'Accueil', isAdmin:false, base_url, user:req.session.user });
 });
+
 
 router.get('/logout',
   (req, res) => {

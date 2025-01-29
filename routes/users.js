@@ -7,7 +7,15 @@ export let router = Router();
 
 router.post('/', async function(req, res, next) {
   try{
-    await User.create(req.body);
+    await User.create(
+      {
+        first_name:req.body.first_name, 
+        last_name: req.body.last_name, 
+        login:req.body.login, 
+        password_hashed: req.body.password,
+        id_profile: req.body.id_profile,
+        id_comercial: req.body.id_comercial??null
+      });
     res.json({"success":"L'utilisateur a bien été enregistré"})
   } catch (err){
     console.error('Erreur : '+err)

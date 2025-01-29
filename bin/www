@@ -7,6 +7,7 @@
 import {app} from '../app.js';
 // let debug = require('debug')('server-express:server');
 import { createServer } from 'http';
+import  dotenv from 'dotenv';
 
 /**
  * Get port from environment and store in Express.
@@ -16,6 +17,9 @@ let port = normalizePort(process.env.PORT || '8080');
 export let base_url = 'http://localhost:'+port; 
 app.set('port', port);
 
+dotenv.config();
+
+process.env.TOKEN_SECRET;
 
 /**
  * Create HTTP server.
