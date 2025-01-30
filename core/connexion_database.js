@@ -5,7 +5,7 @@ export const sequelize = new Sequelize({
   dialect: MsSqlDialect,
   server: 'localhost',
   port: 40110,
-  database: 'gpa',
+  database: 'master',
   encrypt: false,
   authentication: {
     type: 'default',
