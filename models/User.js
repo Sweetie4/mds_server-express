@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Profile } from './Profile.js';
 import bcrypt from 'bcrypt-nodejs';
+import { generateAccessToken } from '../app.js';
 const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
 
 export class User extends Model {
@@ -66,3 +67,23 @@ User.init(
   }
   },
 );
+User.authenticate = async function(username, password) {
+
+  const user = await User.findOne({ where: { login:username } });
+
+  // bcrypt is a one-way hashing algorithm that allows us to 
+  // store strings on the database rather than the raw
+  // passwords. Check out the docs for more detail
+  if (bcrypt.compareSync(password, user.password_hashed)) {
+    return user.authorize();
+  }
+
+  return {'error':'invalid password'};
+}
+
+User.prototype.authorize =  function () {
+  const user = this
+  const authToken = generateAccessToken(user.login);
+
+  return { user, authToken }
+};
