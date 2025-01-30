@@ -15,6 +15,9 @@ import tchatSocketio  from './core/socket_server.js';
 import { createServer } from "http";
 import url from 'node:url';
 import session from 'express-session';
+import bodyParser from "body-parser";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 export let app = express();
 
 import jwt from 'jsonwebtoken';
@@ -49,7 +52,39 @@ app.use('/products', productRouter);
 app.use('/orders', orderRouter);
 app.use('/messages', messageRouter);
 app.use('/delivery-tours', deliveryRouter);
+const options = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "TP API with Swagger",
+      version: "0.1.0",
+      description:
+        "This is a simple CRUD API application made with Express and documented with Swagger",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Mahora Grolleau",
+        url: "",
+        email: "mahora.grolleau@my-digital-school.org",
+      },
+    },
+    servers: [
+      {
+        url: "http://mahora.grolleau.angers.mds-project.fr:8080",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
 
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
