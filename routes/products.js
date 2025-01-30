@@ -15,6 +15,66 @@ const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/g
 
 export let router = Router();
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       required:
+ *         - id_category
+ *         - price
+ *         - stock
+ *         - label
+ *       properties:
+ *         id:
+ *           type: int
+ *           description: The auto-generated id of the product
+ *         id_category:
+ *           type: int
+ *           description: id of the product's category
+ *         price:
+ *           type: float
+ *           description: product's price
+ *         stock:
+ *           type: int
+ *           description: Quantity of product in stock
+ *         label:
+ *           type: string
+ *           description: Product's name
+ *       example:
+ *         id_category: 1
+ *         price: 12.00
+ *         stock: 14526
+ *         label: Cahier Clairefontaine
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: The product managing API
+ * /products:
+ *   post:
+ *     summary: Create a new product
+ *     tags: [Products]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Product'
+ *     responses:
+ *       200:
+ *         description: Success message.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       500:
+ *         description: Some server error
+ *
+ */
 router.post('/', async function(req, res, next) {
   try{
     await Product.create(req.body);
@@ -24,6 +84,33 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: The product managing API
+ * /products/{id}:
+ *   get:
+ *     summary: Get product by id
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The products id 
+ *     responses:
+ *       200:
+ *         description: The product response by id
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       404:
+ *         description: The product was not found
+ *
+ */
 router.get('/:id', async function(req, res, next) {
   try{
     let id = req.params.id;
@@ -34,6 +121,26 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: The product managing API
+ * /products:
+ *   get:
+ *     summary: Get all products 
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: The product response
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       404:
+ *         description: The products was not found
+ *
+ */
 router.get('/', async function(req, res, next) {
   try{
     const products = await Product.findAll({include: [Category, {model: Criter,through: { attributes: [] }}]});
@@ -43,6 +150,40 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: The product managing API
+ * /products/{id}:
+ *  put:
+ *    summary: Update the product by the id
+ *    tags: [Products]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The product id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Product'
+ *    responses:
+ *      200:
+ *        description: The product was updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Product'
+ *      404:
+ *        description: The product was not found
+ *      500:
+ *        description: Some error happened
+ */
 router.put('/:id', async function(req, res, next) {
   try{
     let id = req.params.id;
@@ -60,6 +201,29 @@ router.put('/:id', async function(req, res, next) {
   }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: The product managing API
+ * /products/{id}:
+ *  delete:
+ *     summary: Remove the product by id
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The product id
+ *
+ *     responses:
+ *       200:
+ *         description: The product was deleted
+ *       404:
+ *         description: The product was not found
+ */
 router.delete('/:id', async function(req, res, next) {
   try{
     let id =  req.params.id;

@@ -72,6 +72,9 @@ const options = {
     },
     servers: [
       {
+        url: "http://localhost:8080",
+      },
+      {
         url: "http://mahora.grolleau.angers.mds-project.fr:8080",
       },
     ],
