@@ -1,6 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { Category } from './Category.js';
-const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
+import { Category } from './Category.js';import { sequelize } from '../core/connexion_database';
 
 export class Product extends Model {
   id_category;

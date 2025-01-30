@@ -1,6 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import {User} from './User.js'
-const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
+import {User} from './User.js'import { sequelize } from '../core/connexion_database';
 
 export class Message extends Model {
   id_sender;

@@ -1,8 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Profile } from './Profile.js';
 import bcrypt from 'bcrypt-nodejs';
-import { generateAccessToken } from '../app.js';
-const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
+import { generateAccessToken } from '../app.js';import { sequelize } from '../core/connexion_database';
 
 export class User extends Model {
   id_profile;

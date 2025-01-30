@@ -1,5 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
-const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
+import { Sequelize, DataTypes, Model } from 'sequelize';import { sequelize } from '../core/connexion_database';
 
 export class Service extends Model {
   label;

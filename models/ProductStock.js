@@ -1,7 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Criter } from './Criter.js';
-import { Product } from './Product.js';
-const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
+import { Product } from './Product.js';import { sequelize } from '../core/connexion_database';
 
 export class ProductStock extends Model {
   id_product;

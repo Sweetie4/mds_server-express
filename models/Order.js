@@ -1,7 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { User } from './User.js';
-import { Delivery } from './Delivery.js';
-const sequelize = new Sequelize('mssql://tp_access:safemdp@MAHORA:1433/gpa');
+import { Delivery } from './Delivery.js';import { sequelize } from '../core/connexion_database';
 
 export class Order extends Model {
   id_delivery;
