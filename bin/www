@@ -14,7 +14,7 @@ import  dotenv from 'dotenv';
  */
 
 let port = normalizePort(process.env.PORT || '8080');
-export let base_url = 'http://http://mahora.grolleau.angers.mds-project.fr:'+port; 
+export let base_url = 'http://mahora.grolleau.angers.mds-project.fr:'+port; 
 app.set('port', port);
 
 dotenv.config();

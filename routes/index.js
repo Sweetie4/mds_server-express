@@ -30,10 +30,6 @@ router.post('/login', async function(req, res, next) {
       const response = await User.authenticate(req.body.login, req.body.password);
       if (response.user){
         req.session.logged_in = true;
-        req.session.user = {
-          login:req.body.login,
-          password: req.body.password,
-        };
         req.session.token = response.authToken;
         res.redirect(base_url)
       } else {
