@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { Category } from './Category.js';import { sequelize } from '../core/connexion_database';
+import { Category } from './Category.js';import { sequelize } from '../core/connexion_database.js';
 
 export class Product extends Model {
   id_category;

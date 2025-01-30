@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { User } from './User.js';
-import { Delivery } from './Delivery.js';import { sequelize } from '../core/connexion_database';
+import { Delivery } from './Delivery.js';import { sequelize } from '../core/connexion_database.js';
 
 export class Order extends Model {
   id_delivery;

@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Profile } from './Profile.js';
 import bcrypt from 'bcrypt-nodejs';
-import { generateAccessToken } from '../app.js';import { sequelize } from '../core/connexion_database';
+import { generateAccessToken } from '../app.js';import { sequelize } from '../core/connexion_database.js';
 
 export class User extends Model {
   id_profile;

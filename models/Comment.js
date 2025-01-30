@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { User } from './User.js';
-import { Product } from './Product.js';import { sequelize } from '../core/connexion_database';
+import { Product } from './Product.js';import { sequelize } from '../core/connexion_database.js';
 
 export class Comment extends Model {
   id_user;

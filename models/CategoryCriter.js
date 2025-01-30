@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Category } from './Category.js';
-import { Criter } from './Criter.js';import { sequelize } from '../core/connexion_database';
+import { Criter } from './Criter.js';import { sequelize } from '../core/connexion_database.js';
 
 export class CategoryCriter extends Model {
   id_category;

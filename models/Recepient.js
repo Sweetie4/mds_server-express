@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Message } from './Message.js';
-import { User } from './User.js';import { sequelize } from '../core/connexion_database';
+import { User } from './User.js';import { sequelize } from '../core/connexion_database.js';
 
 export class Recepient extends Model {
   id_message;

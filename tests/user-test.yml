@@ -1,0 +1,45 @@
+config:
+  # This is a test server run by team Artillery
+  # It's designed to be highly scalable
+  target: http://localhost:8080
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 5
+      name: Warm up phase
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up load
+    - duration: 30
+      arrivalRate: 10
+      rampTo: 30
+      name: Spike phase
+  payload:
+    path: 'users.csv'
+    fields:
+      - 'username'
+      - 'password'
+    loadAll: true
+    name: auth
+  # Load & configure a couple of useful plugins
+  # https://docs.art/reference/extensions
+  plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+  ensure:
+    thresholds:
+      - http.response_time.p99: 100
+      - http.response_time.p95: 75
+scenarios:
+  - name: 'Log users'
+    flow:
+      - post:
+              url: '/login'
+              json:
+                username: '{{ $loopElement.username }}'
+                password: '{{ $loopElement.password }}'
+        over: auth

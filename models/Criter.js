@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';import { sequelize } from '../core/connexion_database';
+import { Sequelize, DataTypes, Model } from 'sequelize';import { sequelize } from '../core/connexion_database.js';
 
 export class Criter extends Model {
   label;
