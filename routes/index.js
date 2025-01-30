@@ -48,5 +48,6 @@ router.post('/login', async function(req, res, next) {
 router.get('/logout',
   (req, res) => {
     req.session= null,
+    req.session.logged_in = false;
     res.redirect(base_url);
   });
