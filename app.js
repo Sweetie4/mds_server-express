@@ -41,7 +41,7 @@ httpServer.listen(8080);
 app.use("/socketio/",tchatSocketio(httpServer));
 
 app.use(session({
-  secret: 'key',
+  secret: 'kflzmd7e54',
   resave: false,
   saveUninitialized: false
 }));
@@ -111,5 +111,28 @@ app.use(function(err, req, res, next) {
  * @returns {string}
  */
 export function generateAccessToken(username) {
-  return jwt.sign({username}, process.env.TOKEN_SECRET, { expiresIn: '1800' });
+  return jwt.sign({username}, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+}
+
+/**
+ * Vérify token
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+export function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+
+  if (authHeader == null) return res.sendStatus(401)
+
+  jwt.verify(authHeader, process.env.TOKEN_SECRET, (err, user) => {
+    console.log(err)
+
+    if (err) return res.sendStatus(403)
+
+    req.user = user
+
+    next()
+  })
 }

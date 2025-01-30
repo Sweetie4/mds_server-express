@@ -3,6 +3,7 @@ import { User } from '../models/User.js';
 import { Profile } from '../models/Profile.js';
 import { Service } from '../models/Service.js';
 import { UserService } from '../models/UserService.js';
+import { authenticateToken } from '../app.js';
 export let router = Router();
 
 /**
@@ -75,7 +76,7 @@ export let router = Router();
  *         description: Some server error
  *
  */
-router.post('/', async function(req, res, next) {
+router.post('/',authenticateToken, async function(req, res) {
   try{
     await User.create(
       {
@@ -118,7 +119,7 @@ router.post('/', async function(req, res, next) {
  *       404:
  *         description: The users was not found
  */
-router.get('/role/:role', async function(req, res, next) {
+router.get('/role/:role',authenticateToken, async function(req, res) {
   try{
     let id = req.params.role;
     const users = await User.findAll({ 
@@ -161,7 +162,7 @@ router.get('/role/:role', async function(req, res, next) {
  *       404:
  *         description: The user was not found
  */
-router.get('/:id', async function(req, res, next) {
+router.get('/:id',authenticateToken, async function(req, res) {
   try{
     let id =  req.params.id
     const users = await User.findOne({ where: { id },
@@ -209,7 +210,7 @@ router.get('/:id', async function(req, res, next) {
  *      500:
  *        description: Some error happened
  */
-router.put('/:id', async function(req, res, next) {
+router.put('/:id',authenticateToken, async function(req, res) {
   try{
     let id =  req.params.id
     await User.update(
@@ -249,7 +250,7 @@ router.put('/:id', async function(req, res, next) {
  *       404:
  *         description: The user was not found
  */
-router.delete('/:id', async function(req, res, next) {
+router.delete('/:id', authenticateToken, async function(req, res) {
   try{
     let id =  req.params.id
     await User.destroy({
