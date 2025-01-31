@@ -3,15 +3,15 @@ import { MsSqlDialect } from '@sequelize/mssql';
 
 export const sequelize = new Sequelize({
   dialect: MsSqlDialect,
-  server: 'localhost',
-  port: 40110,
-  database: 'gpa',
+  server: process.env.SERVER,
+  port: process.env.PORT,
+  database: process.env.DATABASE,
   encrypt: false,
   authentication: {
     type: 'default',
     options: {
-      userName: 'sa',
-      password: 'sqlPASSWORD123456',
+      userName: process.env.USERNAME,
+      password: process.env.PASSWORD,
     },
   },
 });
