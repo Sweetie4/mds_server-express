@@ -55,6 +55,7 @@ User.init(
   {
     timestamps: false,
     tableName:'users',
+    schema:'global',
     sequelize, 
     modelName: 'User',
     hooks: {

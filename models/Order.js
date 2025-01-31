@@ -49,6 +49,7 @@ Order.init(
   {
     timestamps: false,
     tableName:'orders',
+    schema:'global',
     sequelize, 
     modelName: 'Order',
   },

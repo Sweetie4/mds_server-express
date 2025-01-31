@@ -40,6 +40,7 @@ Product.init(
   {
     timestamps: false,
     tableName:'product',
+    schema:'global',
     sequelize, 
     modelName: 'Product',
   },

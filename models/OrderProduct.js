@@ -37,6 +37,7 @@ OrderProduct.init(
   {
     timestamps: false,
     tableName:'order_product',
+    schema:'global',
     sequelize, 
     modelName: 'OrderProduct',
   },
