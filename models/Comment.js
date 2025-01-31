@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { User } from './User.js';
-import { Product } from './Product.js';import { sequelize } from '../core/connexion_database.js';
+import { Product } from './Product.js';
+const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
 
 export class Comment extends Model {
   id_user;

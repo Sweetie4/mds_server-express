@@ -1,4 +1,5 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';import { sequelize } from '../core/connexion_database.js';
+import { Sequelize, DataTypes, Model } from 'sequelize';
+const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
 
 export class Criter extends Model {
   label;

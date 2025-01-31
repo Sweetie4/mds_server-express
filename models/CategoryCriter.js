@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Category } from './Category.js';
-import { Criter } from './Criter.js';import { sequelize } from '../core/connexion_database.js';
+import { Criter } from './Criter.js';
+const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
 
 export class CategoryCriter extends Model {
   id_category;
