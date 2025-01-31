@@ -15,13 +15,6 @@ config:
       arrivalRate: 10
       rampTo: 30
       name: Spike phase
-  payload:
-    path: 'users.csv'
-    fields:
-      - 'username'
-      - 'password'
-    loadAll: true
-    name: auth
   # Load & configure a couple of useful plugins
   # https://docs.art/reference/extensions
   plugins:
@@ -35,11 +28,9 @@ config:
       - http.response_time.p99: 100
       - http.response_time.p95: 75
 scenarios:
-  - name: 'Log users'
+  - name: 'Get a user'
     flow:
-      - post:
-              url: '/login'
-              json:
-                username: '{{ $loopElement.username }}'
-                password: '{{ $loopElement.password }}'
-        over: auth
+      - loop:
+          - get:
+              url: '/products '
+        count: 100
