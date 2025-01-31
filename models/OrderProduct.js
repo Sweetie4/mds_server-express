@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Product } from './Product.js';
 import { Order } from './Order.js';
-const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
+const sequelize = new Sequelize('mssql://sa:sqlPASSWORD123456@localhost:40110/gpa');
 
 export class OrderProduct extends Model {
   id_order;

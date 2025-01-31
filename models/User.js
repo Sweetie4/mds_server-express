@@ -2,7 +2,7 @@ import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Profile } from './Profile.js';
 import bcrypt from 'bcrypt-nodejs';
 import { generateAccessToken } from '../app.js';
-const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
+const sequelize = new Sequelize('mssql://sa:sqlPASSWORD123456@localhost:40110/gpa');
 
 export class User extends Model {
   id_profile;

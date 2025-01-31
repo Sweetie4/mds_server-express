@@ -11,7 +11,7 @@ import { User } from '../models/User.js';
 import { Comment } from '../models/Comment.js';
 import { Stock} from '../models/Stock.js'
 import { ProductStock} from '../models/ProductStock.js'
-const sequelize_trashed = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa_trashed');
+const sequelize_trashed = new Sequelize('mssql://sa:sqlPASSWORD123456@localhost:40110/gpa_trashed');
 
 export let router = Router();
 

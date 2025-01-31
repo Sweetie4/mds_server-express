@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
+const sequelize = new Sequelize('mssql://sa:sqlPASSWORD123456@localhost:40110/gpa');
 
 export class Category extends Model {
   label;

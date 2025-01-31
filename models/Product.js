@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Category } from './Category.js';
-const sequelize = new Sequelize('mssql://sa:msqlPASSWORD123456@localhost:40110/gpa');
+const sequelize = new Sequelize('mssql://sa:sqlPASSWORD123456@localhost:40110/gpa');
 
 export class Product extends Model {
   id_category;
