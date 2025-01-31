@@ -11,7 +11,8 @@ import { User } from '../models/User.js';
 import { Comment } from '../models/Comment.js';
 import { Stock} from '../models/Stock.js'
 import { ProductStock} from '../models/ProductStock.js'
-const sequelize_trashed = new Sequelize('mssql://sa:sqlPASSWORD123456@localhost:40110/gpa_trashed');
+import { JSONtoXML } from '../app.js';
+const sequelize_trashed = new Sequelize('mssql://tp_access:safemdp@mahora:1433/gpa_trashed');
 
 export let router = Router();
 
@@ -144,7 +145,14 @@ router.get('/:id', async function(req, res, next) {
 router.get('/', async function(req, res, next) {
   try{
     const products = await Product.findAll({include: [Category, {model: Criter,through: { attributes: [] }}]});
-    res.json(products);
+    let accept = req.headers.accept;
+    if (accept == "text/xml"){
+      res.set('Content-Type', 'text/xml');
+      res.send(JSONtoXML(JSON.parse(JSON.stringify(products))))
+    } else {
+      res.set('Content-Type', 'application/json');
+      res.json(products);
+    }
   } catch (err){
     console.error('Erreur : '+err)
   }

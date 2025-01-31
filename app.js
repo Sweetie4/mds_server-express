@@ -1,4 +1,4 @@
-import createError from 'http-errors';
+export let app = express();
 import express, { json, urlencoded, static as expressStatic } from 'express';
 import { join } from 'path';
 import cookieParser from 'cookie-parser';
@@ -18,7 +18,6 @@ import session from 'express-session';
 import bodyParser from "body-parser";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-export let app = express();
 
 import jwt from 'jsonwebtoken';
 
@@ -138,4 +137,25 @@ export function authenticateToken(req, res, next) {
 
     next()
   })
+}
+
+export function JSONtoXML(obj) {
+  let xml = '';
+  for (let prop in obj) {
+    xml += obj[prop] instanceof Array ? '' : '<' + prop + '>';
+    if (obj[prop] instanceof Array) {
+      for (let array in obj[prop]) {
+        xml += '\n<' + prop + '>\n';
+        xml += JSONtoXML(new Object(obj[prop][array]));
+        xml += '</' + prop + '>';
+      }
+    } else if (typeof obj[prop] == 'object') {
+      xml += JSONtoXML(new Object(obj[prop]));
+    } else {
+      xml += obj[prop];
+    }
+    xml += obj[prop] instanceof Array ? '' : '</' + prop + '>\n';
+  }
+  xml = xml.replace(/<\/?[0-9]{1,}>/g, '');
+  return xml;
 }
