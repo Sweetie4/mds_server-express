@@ -5,13 +5,13 @@ export const sequelize = new Sequelize({
   dialect: MsSqlDialect,
   server: 'localhost',
   port: 40110,
-  database: 'master',
+  database: 'gpa',
   encrypt: false,
   authentication: {
     type: 'default',
     options: {
       userName: 'sa',
-      password: 'msqlPASSWORD123456',
+      password: 'sqlPASSWORD123456',
     },
   },
 });
